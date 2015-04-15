@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Factory</title>
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <div class="elias">
+        <input type="text">
+    </div>    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-offset-4 col-lg-4">
+
+                <div ng-controller="MathController">
+                    <form class="form" novalidate>
+                        <div class="form-group">
+                            <label for="numA">Num A</label>
+                            <input type="number" class="form-control" name="numA" id="numA" ng-model="numA">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="numB">Num B</label>
+                            <input type="number" class="form-control" name="numB" id="numB" ng-model="numB">
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-success" ng-click="sum()">+</button>
+                            <button class="btn btn-success">-</button>
+                            <button class="btn btn-success">x</button>
+                            <button class="btn btn-success">/</button>
+                            <button class="btn btn-primary">Limpar</button>
+                        </div>
+                    </form>
+                </div><!-- controller -->
+
+            </div>
+        </div>
+    </div>
+
+    <script src="bower_components/angularjs/angular.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        var app = angular.module('myapp', []);
+
+        app.factory('$OperationFactory', function() {
+            var name = 'operation';
+            var service = {};
+
+            service.getName = function() {
+                return name;
+            }
+
+            service.sum = function(numA, numB) {
+                return numA + numB;
+            }
+
+            return service;
+        });
+        
+        app.controller('MathController', ['$scope', '$OperationFactory', 
+            function($scope, $OperationFactory) {
+
+            $scope.numA = 0;
+            $scope.numB = 0;
+            
+            $scope.sum = function() {
+                console.debug('numA', $scope.numA);
+                console.debug('numB', $scope.numB);
+
+                console.log('sum()', $OperationFactory.sum($scope.numA, $scope.numB));
+                console.log('getName()', $OperationFactory.getName());
+                console.log('name', $OperationFactory.name);
+            } 
+        }]);
+        
+        angular.bootstrap(document, ['myapp']);
+    </script>
+
+</body>
+</html>

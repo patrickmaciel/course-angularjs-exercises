@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <h1>Alunos</h1>
+
+            <ul>
+                <li ng-repeat="aluno in alunos">
+                    {{ aluno.nome }} <a href="#!/aluno/{{ $index }}">Ver nota</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>

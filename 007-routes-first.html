@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Factory</title>
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <div ng-view></div>
+
+    <script src="bower_components/angularjs/angular.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="bower_components/angular-route/angular-route.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript">
+        var app = angular.module('myapp', ['ngRoute']);
+
+        // factory, service, provider, delegate, value, constant
+        app.service('$AlunosServices', function() {
+            var alunos = [
+                {matricula: 0, nome: 'Michael Francisco', nota: 1},
+                {matricula: 1, nome: 'Gabriel Henrique', nota: 10},
+                {matricula: 2, nome: 'Denis Policena', nota: 7},
+                {matricula: 3, nome: 'Elias Macedo', nota: 2}
+            ];
+
+            this.getAlunos = function() {
+                return alunos;
+            };
+
+            this.getAluno = function(index) {
+                return alunos[index] == undefined ? null : alunos[index];
+            };
+        });
+        
+        app.config(['$routeProvider', '$locationProvider', 
+            function($routeProvider, $locationProvider) {
+
+                $locationProvider.hashPrefix('!');
+
+                $routeProvider
+                .when('/alunos', {
+                    templateUrl: 'templates/alunos.html',
+                    controller: 'AlunosController'
+                })
+                .when('/aluno/:matricula', {
+                    templateUrl: 'templates/aluno.html',
+                    controller: 'AlunosController'
+                })
+                .when('/aluno/:matricula/nota', {
+                    templateUrl: 'templates/aluno-nota.html',
+                    controller: 'AlunosController'
+                })
+                .otherwise({
+                    redirectTo: '/alunos'
+                });
+        }]);
+        
+        app.controller('AlunosController', [
+            '$scope',
+            '$AlunosServices', 
+            '$route',
+            '$routeParams',
+            function(
+                $scope,
+                $AlunosServices,
+                $route,
+                $routeParams) {
+
+            $scope.$route = $route;
+            $scope.$routeParams = $routeParams;
+            
+            $scope.alunos = $AlunosServices.getAlunos();
+            $scope.aluno = null;
+
+            if ($scope.alunos[$route.current.params.matricula] != undefined) {
+                $scope.aluno = $AlunosServices.getAluno($route.current.params.matricula);
+            }
+
+        }]);
+        
+        angular.bootstrap(document, ['myapp']);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <h1>Aluno {{ alunos[$route.current.params.matricula].nome }}</h1>
+
+            <h2>Tem certeza que deseja ver a nota?</h2>
+
+            <h3>
+                <a href="#!/aluno/{{ $route.current.params.matricula }}/nota">Sim tenho!</a>
+                &nbsp;
+                <a href="#!/alunos">Claro que não.</a>
+            </h3>
+
+            <pre>$route.current.templateUrl = {{$route.current.templateUrl}}</pre>
+            <pre>$route.current.params = {{$route.current.params}}</pre>
+            <pre>$routeParams = {{$routeParams}}</pre>            
+
+        </div>
+    </div>
+</div>
